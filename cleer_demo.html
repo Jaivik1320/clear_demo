@@ -1,0 +1,998 @@
+<title>Cleer — Dental Insurance Verification</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg:      #f8fafc;
+  --bg2:     #ffffff;
+  --bg3:     #f1f5f9;
+  --border:  #e2e8f0;
+  --border2: #cbd5e1;
+  --accent:  #2563eb;
+  --accent2: #1d4ed8;
+  --accent-light: #eff6ff;
+  --accent-mid:   #bfdbfe;
+  --green:   #16a34a;
+  --green-bg:#dcfce7;
+  --amber:   #d97706;
+  --amber-bg:#fef3c7;
+  --red:     #dc2626;
+  --red-bg:  #fee2e2;
+  --teal:    #0891b2;
+  --teal-bg: #cffafe;
+  --text:    #0f172a;
+  --text2:   #475569;
+  --text3:   #94a3b8;
+  --shadow:  0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,.07), 0 2px 4px -2px rgba(0,0,0,.05);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:      #0b1120;
+    --bg2:     #111827;
+    --bg3:     #1e2a3a;
+    --border:  #1e293b;
+    --border2: #334155;
+    --accent:  #3b82f6;
+    --accent2: #2563eb;
+    --accent-light: #1e3a5f;
+    --accent-mid:   #1e40af;
+    --green:   #22c55e;
+    --green-bg:#052e16;
+    --amber:   #f59e0b;
+    --amber-bg:#451a03;
+    --red:     #f87171;
+    --red-bg:  #450a0a;
+    --teal:    #22d3ee;
+    --teal-bg: #083344;
+    --text:    #f1f5f9;
+    --text2:   #94a3b8;
+    --text3:   #475569;
+    --shadow:  0 1px 3px rgba(0,0,0,.3);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,.4);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg:      #0b1120;
+  --bg2:     #111827;
+  --bg3:     #1e2a3a;
+  --border:  #1e293b;
+  --border2: #334155;
+  --accent:  #3b82f6;
+  --accent2: #2563eb;
+  --accent-light: #1e3a5f;
+  --accent-mid:   #1e40af;
+  --green:   #22c55e;
+  --green-bg:#052e16;
+  --amber:   #f59e0b;
+  --amber-bg:#451a03;
+  --red:     #f87171;
+  --red-bg:  #450a0a;
+  --teal:    #22d3ee;
+  --teal-bg: #083344;
+  --text:    #f1f5f9;
+  --text2:   #94a3b8;
+  --text3:   #475569;
+  --shadow:  0 1px 3px rgba(0,0,0,.3);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,.4);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ── Shell ─────────────────────────────────────────────────── */
+.shell { display: flex; height: 100vh; overflow: hidden; }
+
+/* ── Sidebar ───────────────────────────────────────────────── */
+.sidebar {
+  width: 232px; min-width: 232px;
+  background: var(--bg2);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.logo-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 20px 18px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.logo-mark svg { width: 20px; height: 20px; fill: #fff; }
+.logo-text { font-size: 17px; font-weight: 800; letter-spacing: -0.4px; }
+.logo-text span { color: var(--accent); }
+
+.office-switcher {
+  margin: 14px 12px 0;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 9px;
+}
+.office-avatar {
+  width: 28px; height: 28px; border-radius: 7px;
+  background: var(--accent-mid);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--accent); flex-shrink: 0;
+}
+.office-name { font-size: 12px; font-weight: 600; line-height: 1.2; }
+.office-plan { font-size: 10px; color: var(--text3); }
+.office-switcher svg { margin-left: auto; width: 12px; height: 12px; color: var(--text3); }
+
+.nav-section { padding: 16px 12px 0; }
+.nav-label {
+  font-size: 10px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 1px;
+  padding: 0 6px; margin-bottom: 4px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 8px; border-radius: 7px;
+  cursor: pointer; color: var(--text2);
+  font-size: 13px; font-weight: 500;
+  margin-bottom: 1px; transition: all 0.12s;
+}
+.nav-item svg { width: 15px; height: 15px; flex-shrink: 0; opacity: 0.7; }
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 600; }
+.nav-item.active svg { opacity: 1; }
+.badge {
+  margin-left: auto; background: var(--accent); color: #fff;
+  font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px;
+}
+.badge-green { background: var(--green); }
+.badge-amber { background: var(--amber); }
+
+.sidebar-footer {
+  margin-top: auto; padding: 14px 12px;
+  border-top: 1px solid var(--border);
+}
+.user-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 8px; border-radius: 7px; cursor: pointer;
+}
+.user-row:hover { background: var(--bg3); }
+.avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0;
+}
+.user-name { font-size: 12px; font-weight: 600; }
+.user-role { font-size: 11px; color: var(--text3); }
+
+/* ── Main ──────────────────────────────────────────────────── */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px;
+  height: 56px; min-height: 56px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+}
+.page-title { font-size: 15px; font-weight: 700; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+
+.btn {
+  padding: 6px 14px; border-radius: 7px; border: none;
+  font-size: 13px; font-weight: 600; font-family: inherit;
+  cursor: pointer; transition: all 0.12s; white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent2); }
+.btn-ghost {
+  background: var(--bg2); color: var(--text2);
+  border: 1px solid var(--border2);
+}
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+.content { flex: 1; overflow-y: auto; padding: 24px; }
+
+/* ── Panel system ──────────────────────────────────────────── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── Cards ─────────────────────────────────────────────────── */
+.card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1px solid var(--border);
+}
+.card-title { font-size: 14px; font-weight: 700; }
+.card-body { padding: 18px; }
+
+/* ── Stats grid ────────────────────────────────────────────── */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+
+.stat-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 18px; box-shadow: var(--shadow);
+}
+.stat-icon {
+  width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px;
+}
+.stat-icon svg { width: 18px; height: 18px; }
+.stat-num { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 12px; color: var(--text2); font-weight: 500; margin-bottom: 6px; }
+.stat-delta { font-size: 11px; }
+.up { color: var(--green); font-weight: 600; }
+.down { color: var(--red); font-weight: 600; }
+.muted { color: var(--text3); }
+
+/* ── Two/three col layouts ─────────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.col-2-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 14px; margin-bottom: 14px; }
+
+/* ── Verification queue ────────────────────────────────────── */
+.queue-table { width: 100%; border-collapse: collapse; }
+.queue-table th {
+  text-align: left; padding: 9px 14px;
+  font-size: 11px; font-weight: 700; color: var(--text3);
+  text-transform: uppercase; letter-spacing: 0.7px;
+  border-bottom: 1px solid var(--border);
+}
+.queue-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); }
+.queue-table tr:last-child td { border-bottom: none; }
+.queue-table tr:hover td { background: var(--bg3); }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px; border-radius: 20px;
+  font-size: 11px; font-weight: 600; white-space: nowrap;
+}
+.chip-green { background: var(--green-bg); color: var(--green); }
+.chip-amber { background: var(--amber-bg); color: var(--amber); }
+.chip-blue  { background: var(--accent-light); color: var(--accent); }
+.chip-red   { background: var(--red-bg); color: var(--red); }
+.chip-teal  { background: var(--teal-bg); color: var(--teal); }
+.chip .dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+.chip .dot.pulse { animation: pdot 1.4s infinite; }
+@keyframes pdot { 0%,100%{opacity:1}50%{opacity:.3} }
+
+.mono { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text2); }
+.patient-name { font-size: 13px; font-weight: 600; }
+.patient-dob  { font-size: 11px; color: var(--text3); }
+
+/* ── Progress bar ──────────────────────────────────────────── */
+.progress-wrap { display: flex; align-items: center; gap: 8px; }
+.progress-track { flex: 1; height: 5px; background: var(--bg3); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; background: var(--accent); transition: width 1s ease; }
+
+/* ── Agent activity feed ───────────────────────────────────── */
+.feed { display: flex; flex-direction: column; gap: 0; }
+.feed-item {
+  display: flex; gap: 11px; padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.feed-item:last-child { border-bottom: none; }
+.feed-dot-col { display: flex; flex-direction: column; align-items: center; padding-top: 3px; }
+.feed-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.feed-line { width: 1px; background: var(--border); flex: 1; min-height: 16px; margin-top: 4px; }
+.feed-body { flex: 1; min-width: 0; }
+.feed-title { font-size: 12px; font-weight: 600; line-height: 1.4; }
+.feed-sub   { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.feed-time  { font-size: 11px; color: var(--text3); white-space: nowrap; flex-shrink: 0; }
+
+/* ── Coverage breakdown panel ──────────────────────────────── */
+.coverage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.cov-tile {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 9px; padding: 13px;
+}
+.cov-service { font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; }
+.cov-pct { font-size: 22px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+.cov-limit { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.cov-bar-bg { height: 4px; background: var(--border); border-radius: 2px; margin-top: 8px; overflow: hidden; }
+.cov-bar { height: 100%; border-radius: 2px; background: var(--accent); }
+
+/* ── Log stream ────────────────────────────────────────────── */
+.log-box {
+  font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+  line-height: 1.9; max-height: 200px; overflow-y: auto;
+}
+.log-box::-webkit-scrollbar { width: 3px; }
+.log-box::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+.log-row { display: flex; gap: 10px; }
+.log-ts  { color: var(--text3); flex-shrink: 0; }
+.log-lvl { flex-shrink: 0; font-weight: 700; }
+.log-lvl.i { color: var(--accent); }
+.log-lvl.s { color: var(--green); }
+.log-lvl.w { color: var(--amber); }
+.log-lvl.e { color: var(--red); }
+.log-txt { color: var(--text2); }
+.log-txt em { color: var(--text); font-style: normal; }
+
+/* ── Insurer breakdown ─────────────────────────────────────── */
+.insurer-list { display: flex; flex-direction: column; gap: 9px; }
+.insurer-row { display: flex; align-items: center; gap: 10px; }
+.insurer-name { font-size: 12px; font-weight: 600; width: 120px; flex-shrink: 0; }
+.bar-bg { flex: 1; height: 7px; background: var(--bg3); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width 1s ease; }
+.bar-count { font-size: 12px; color: var(--text2); font-weight: 600; width: 32px; text-align: right; }
+
+/* ── Code panel ────────────────────────────────────────────── */
+.code-tabs { display: flex; gap: 4px; padding: 12px 16px 0; }
+.code-tab {
+  padding: 6px 13px; border-radius: 6px 6px 0 0;
+  font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text2);
+  border: 1px solid transparent; border-bottom: none;
+  margin-bottom: -1px; position: relative; background: transparent;
+}
+.code-tab.active {
+  background: var(--bg2); color: var(--text);
+  border-color: var(--border); border-bottom-color: var(--bg2);
+}
+.code-tab:hover:not(.active) { color: var(--text); }
+.code-sep { border-bottom: 1px solid var(--border); }
+
+.code-area {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px;
+  line-height: 1.85; padding: 18px; overflow-x: auto; max-height: 360px;
+  overflow-y: auto;
+}
+.code-area::-webkit-scrollbar { width: 4px; height: 4px; }
+.code-area::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+.kw { color: #7c3aed; } .fn { color: #059669; } .str { color: #b45309; }
+.cm { color: var(--text3); font-style: italic; } .ty { color: #0891b2; }
+.num { color: #be185d; } .op { color: var(--text2); } .var { color: var(--text); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .kw { color: #a78bfa; }
+  :root:not([data-theme="light"]) .fn  { color: #34d399; }
+  :root:not([data-theme="light"]) .str { color: #fbbf24; }
+  :root:not([data-theme="light"]) .ty  { color: #67e8f9; }
+  :root:not([data-theme="light"]) .num { color: #f472b6; }
+}
+:root[data-theme="dark"] .kw  { color: #a78bfa; }
+:root[data-theme="dark"] .fn  { color: #34d399; }
+:root[data-theme="dark"] .str { color: #fbbf24; }
+:root[data-theme="dark"] .ty  { color: #67e8f9; }
+:root[data-theme="dark"] .num { color: #f472b6; }
+
+/* ── Integration cards ─────────────────────────────────────── */
+.int-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.int-card {
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px;
+}
+.int-icon { font-size: 22px; margin-bottom: 9px; }
+.int-name { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.int-detail { font-size: 11px; color: var(--text2); line-height: 1.5; margin-bottom: 10px; }
+.int-meta { display: flex; align-items: center; justify-content: space-between; }
+.int-latency { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--text3); }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 860px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .two-col, .col-2-3, .int-grid { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+}
+</style>
+
+<div class="shell">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="logo-row">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      </div>
+      <div>
+        <div class="logo-text"><span>Cl</span>eer</div>
+        <div style="font-size:10px;color:var(--text3);font-weight:500">Dental Verification AI</div>
+      </div>
+    </div>
+
+    <div class="office-switcher">
+      <div class="office-avatar">BG</div>
+      <div>
+        <div class="office-name">Bright Gate Dental</div>
+        <div class="office-plan">Pro Plan · Toronto, ON</div>
+      </div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-label">Overview</div>
+      <div class="nav-item active" onclick="showPanel('dashboard',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item" onclick="showPanel('queue',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        Verification Queue
+        <span class="badge badge-amber" id="queueCount">3</span>
+      </div>
+    </div>
+
+    <div class="nav-section" style="margin-top:8px">
+      <div class="nav-label">Tools</div>
+      <div class="nav-item" onclick="showPanel('coverage',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Coverage Lookup
+      </div>
+      <div class="nav-item" onclick="showPanel('integrations',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+        Integrations
+        <span class="badge badge-green">6</span>
+      </div>
+      <div class="nav-item" onclick="showPanel('code',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        API & Code
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="avatar">JP</div>
+        <div>
+          <div class="user-name">Jaivik Parekh</div>
+          <div class="user-role">Full Stack Engineer</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="page-title" id="pageTitle">Dashboard</div>
+      <div class="topbar-right">
+        <div class="chip chip-green"><span class="dot pulse"></span> Agents running</div>
+        <button class="btn btn-ghost">Export Report</button>
+        <button class="btn btn-primary">+ Run Verification</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ═══════════ DASHBOARD ═══════════ -->
+      <div class="panel active" id="panel-dashboard">
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--accent-light)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="stat-num" style="color:var(--accent)" id="verToday">—</div>
+            <div class="stat-label">Verifications Today</div>
+            <div class="stat-delta"><span class="up">↑ 12%</span> <span class="muted">vs yesterday</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--green-bg)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </div>
+            <div class="stat-num" style="color:var(--green)" id="avgTime">—</div>
+            <div class="stat-label">Avg Turnaround</div>
+            <div class="stat-delta"><span class="down">↓ 64%</span> <span class="muted">vs manual (18 min)</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--teal-bg)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div class="stat-num" style="color:var(--teal)">300+</div>
+            <div class="stat-label">Offices on Platform</div>
+            <div class="stat-delta"><span class="up">↑ 18</span> <span class="muted">new this month</span></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background:var(--amber-bg)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div class="stat-num" style="color:var(--amber)">98.4%</div>
+            <div class="stat-label">Accuracy Rate</div>
+            <div class="stat-delta"><span class="up">↑ 0.3%</span> <span class="muted">agent v2.4</span></div>
+          </div>
+        </div>
+
+        <div class="col-2-3">
+          <!-- Verification queue preview -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Today's Queue</div>
+              <button class="btn btn-ghost" style="font-size:12px;padding:4px 10px" onclick="showPanel('queue',document.querySelectorAll('.nav-item')[1])">View all</button>
+            </div>
+            <div style="overflow-x:auto">
+              <table class="queue-table" id="dashQueueTable"></table>
+            </div>
+          </div>
+
+          <!-- Agent activity feed -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Agent Activity</div>
+              <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--green)">● live</span>
+            </div>
+            <div class="card-body">
+              <div class="feed" id="agentFeed"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <!-- Insurer breakdown -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Verifications by Insurer</div>
+              <span style="font-size:11px;color:var(--text3)">Last 30 days</span>
+            </div>
+            <div class="card-body">
+              <div class="insurer-list" id="insurerList"></div>
+            </div>
+          </div>
+
+          <!-- Agent log -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Agent Execution Log</div>
+              <span style="font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--green)">streaming</span>
+            </div>
+            <div class="card-body">
+              <div class="log-box" id="logBox"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ QUEUE ═══════════ -->
+      <div class="panel" id="panel-queue">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header">
+            <div class="card-title">Verification Queue</div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost" style="font-size:12px;padding:4px 10px">Filter</button>
+              <button class="btn btn-primary" style="font-size:12px;padding:4px 12px">Run All Pending</button>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="queue-table" id="fullQueueTable"></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ COVERAGE ═══════════ -->
+      <div class="panel" id="panel-coverage">
+        <div class="two-col">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Patient Coverage Breakdown</div>
+              <div class="chip chip-green"><span class="dot"></span> Verified 2 min ago</div>
+            </div>
+            <div class="card-body">
+              <div style="margin-bottom:14px">
+                <div style="font-size:16px;font-weight:800">Sarah Mitchell</div>
+                <div style="font-size:12px;color:var(--text2);margin-top:2px">DOB: 1988-04-15 · Policy: SB-4829201 · Sun Life Financial</div>
+              </div>
+              <div class="coverage-grid" id="coverageGrid"></div>
+              <div style="margin-top:14px;padding:12px;background:var(--bg3);border-radius:8px;border:1px solid var(--border)">
+                <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px">Annual Maximum</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                  <span style="font-size:13px;font-weight:600">$1,800 used of $2,500</span>
+                  <span style="font-size:12px;color:var(--text2)">$700 remaining</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:0%" id="annualBar" data-w="72%"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Eligibility Details</div>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:12px">
+              <div id="eligDetails"></div>
+              <div style="padding-top:10px;border-top:1px solid var(--border)">
+                <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:8px">Agent Execution</div>
+                <div class="log-box" id="coverageLog"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ INTEGRATIONS ═══════════ -->
+      <div class="panel" id="panel-integrations">
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header">
+            <div class="card-title">Connected Systems</div>
+            <button class="btn btn-primary" style="font-size:12px;padding:4px 12px">+ Add Integration</button>
+          </div>
+          <div class="card-body">
+            <div class="int-grid" id="intGrid"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Webhook Delivery Log</div>
+          </div>
+          <div class="card-body">
+            <div class="log-box" id="webhookLog"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════ CODE ═══════════ -->
+      <div class="panel" id="panel-code">
+        <div class="card">
+          <div class="code-tabs" id="codeTabs">
+            <div class="code-tab active" onclick="switchCodeTab(0,this)">Verification Agent</div>
+            <div class="code-tab" onclick="switchCodeTab(1,this)">Insurer API Client</div>
+            <div class="code-tab" onclick="switchCodeTab(2,this)">PMS Webhook Sync</div>
+          </div>
+          <div class="code-sep"></div>
+          <div class="code-area" id="codeArea"></div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+// ── Nav ──────────────────────────────────────────────────────
+function showPanel(id, el) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const p = document.getElementById('panel-' + id);
+  if (p) p.classList.add('active');
+  if (el) el.classList.add('active');
+  document.getElementById('pageTitle').textContent = {
+    dashboard:'Dashboard', queue:'Verification Queue',
+    coverage:'Coverage Lookup', integrations:'Integrations', code:'API & Code'
+  }[id] || id;
+  if (id === 'coverage') {
+    setTimeout(() => {
+      const b = document.getElementById('annualBar');
+      if (b) b.style.width = b.dataset.w;
+    }, 300);
+  }
+}
+
+// ── Animated counters ────────────────────────────────────────
+function animCount(el, val, suffix='') {
+  let v=0; const step=val/36;
+  const t=setInterval(()=>{ v=Math.min(v+step,val); el.textContent=Math.round(v)+suffix; if(v>=val)clearInterval(t); },20);
+}
+animCount(document.getElementById('verToday'), 84);
+animCount(document.getElementById('avgTime'), 6, ' min');
+
+// ── Queue data ────────────────────────────────────────────────
+const queueData = [
+  {id:'VRF-1042', patient:'Sarah Mitchell', dob:'1988-04-15', insurer:'Sun Life', policy:'SB-4829201', appt:'Today 2:30 PM', status:'verified',  progress:100},
+  {id:'VRF-1043', patient:'David Okonkwo',  dob:'1975-09-22', insurer:'Great-West Life', policy:'GWL-7710238', appt:'Today 3:15 PM', status:'running',  progress:62},
+  {id:'VRF-1044', patient:'Emma Tremblay',  dob:'1993-01-08', insurer:'Manulife', policy:'MAN-3349102', appt:'Today 4:00 PM', status:'running',  progress:30},
+  {id:'VRF-1045', patient:'James Kowalski', dob:'1961-06-30', insurer:'Desjardins', policy:'DSJ-9921045', appt:'Tomorrow 9:00 AM', status:'pending',  progress:0},
+  {id:'VRF-1046', patient:'Priya Sharma',   dob:'1990-11-14', insurer:'Canada Life', policy:'CL-5530471', appt:'Tomorrow 10:30 AM', status:'pending',  progress:0},
+  {id:'VRF-1047', patient:'Chen Wei',       dob:'1982-03-19', insurer:'SSQ', policy:'SSQ-1120384', appt:'Tomorrow 11:45 AM', status:'failed',   progress:0},
+];
+
+function statusChip(s) {
+  if (s==='verified') return '<span class="chip chip-green"><span class="dot"></span>Verified</span>';
+  if (s==='running')  return '<span class="chip chip-blue"><span class="dot pulse"></span>Running</span>';
+  if (s==='pending')  return '<span class="chip chip-amber"><span class="dot"></span>Pending</span>';
+  if (s==='failed')   return '<span class="chip chip-red"><span class="dot"></span>Failed — Retry</span>';
+  return s;
+}
+
+function buildQueueTable(el, rows, showProgress) {
+  el.innerHTML = `<thead><tr>
+    <th>ID</th><th>Patient</th><th>Insurer</th><th>Policy #</th>
+    <th>Appointment</th>${showProgress?'<th>Progress</th>':''}<th>Status</th>
+  </tr></thead>`;
+  const tb = document.createElement('tbody');
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="mono">${r.id}</td>
+    <td><div class="patient-name">${r.patient}</div><div class="patient-dob">DOB: ${r.dob}</div></td>
+    <td style="font-size:13px;font-weight:500">${r.insurer}</td>
+    <td class="mono">${r.policy}</td>
+    <td style="font-size:12px;color:var(--text2)">${r.appt}</td>
+    ${showProgress?`<td style="min-width:90px"><div class="progress-wrap"><div class="progress-track"><div class="progress-fill" style="width:${r.progress}%"></div></div><span style="font-size:11px;color:var(--text2);width:28px">${r.progress}%</span></div></td>`:''}
+    <td>${statusChip(r.status)}</td>`;
+    tb.appendChild(tr);
+  });
+  el.appendChild(tb);
+}
+
+buildQueueTable(document.getElementById('dashQueueTable'), queueData.slice(0,4), true);
+buildQueueTable(document.getElementById('fullQueueTable'), queueData, true);
+
+// Animate running progress bars
+let p1=62, p2=30;
+setInterval(()=>{
+  p1=Math.min(p1+0.3,99); p2=Math.min(p2+0.15,85);
+  document.querySelectorAll('.progress-fill').forEach((b,i)=>{
+    if(b.style.width==='62%'||b.style.width===p1.toFixed(1)+'%') b.style.width=p1.toFixed(1)+'%';
+    else if(b.style.width==='30%'||b.style.width===p2.toFixed(1)+'%') b.style.width=p2.toFixed(1)+'%';
+  });
+},600);
+
+// ── Agent feed ────────────────────────────────────────────────
+const feedItems = [
+  {color:'var(--green)',  title:'VRF-1042 verified — Sun Life', sub:'Sarah Mitchell · coverage 80/60/50 · 5m 38s', time:'2 min ago'},
+  {color:'var(--accent)', title:'VRF-1043 contacting Great-West Life…', sub:'David Okonkwo · portal login + scrape', time:'Just now'},
+  {color:'var(--accent)', title:'VRF-1044 queued with Manulife API', sub:'Emma Tremblay · REST call pending', time:'Just now'},
+  {color:'var(--amber)',  title:'VRF-1047 retry scheduled', sub:'SSQ — 503 on attempt 1/3, back-off 4s', time:'4 min ago'},
+  {color:'var(--green)',  title:'CRM sync complete', sub:'3 records patched in Dentrix · no re-entry', time:'5 min ago'},
+];
+const feed = document.getElementById('agentFeed');
+feedItems.forEach((f,i)=>{
+  const isLast = i===feedItems.length-1;
+  feed.innerHTML += `<div class="feed-item">
+    <div class="feed-dot-col">
+      <div class="feed-dot" style="background:${f.color}"></div>
+      ${isLast?'':'<div class="feed-line"></div>'}
+    </div>
+    <div class="feed-body">
+      <div class="feed-title">${f.title}</div>
+      <div class="feed-sub">${f.sub}</div>
+    </div>
+    <div class="feed-time">${f.time}</div>
+  </div>`;
+});
+
+// ── Insurer list ──────────────────────────────────────────────
+const insurers=[
+  {name:'Sun Life',       count:382, pct:35},
+  {name:'Manulife',       count:274, pct:25},
+  {name:'Great-West Life',count:219, pct:20},
+  {name:'Canada Life',    count:131, pct:12},
+  {name:'Desjardins',     count:87,  pct:8},
+];
+const iList = document.getElementById('insurerList');
+insurers.forEach(ins=>{
+  iList.innerHTML+=`<div class="insurer-row">
+    <div class="insurer-name">${ins.name}</div>
+    <div class="bar-bg"><div class="bar-fill" style="width:0%" data-w="${ins.pct}%"></div></div>
+    <div class="bar-count">${ins.count}</div>
+  </div>`;
+});
+setTimeout(()=>{ document.querySelectorAll('.bar-fill').forEach(b=>b.style.width=b.dataset.w); },300);
+
+// ── Log stream ────────────────────────────────────────────────
+const logLines=[
+  {ts:'15:44:01',l:'i',msg:'VRF-1043: IntentAgent.init() → <em>David Okonkwo</em>'},
+  {ts:'15:44:01',l:'i',msg:'Insurer: <em>Great-West Life</em> — using portal scrape path'},
+  {ts:'15:44:02',l:'i',msg:'Authenticating → gwl-portal.ca (SSO token refresh)'},
+  {ts:'15:44:03',l:'s',msg:'Auth OK · session token cached <em>TTL 3600s</em>'},
+  {ts:'15:44:03',l:'i',msg:'Fetching coverage: policy <em>GWL-7710238</em>'},
+  {ts:'15:44:04',l:'s',msg:'Coverage response <em>200 OK</em> · parsing 14 fields'},
+  {ts:'15:44:04',l:'s',msg:'Guardrail pass · confidence <em>0.96</em>'},
+  {ts:'15:44:05',l:'w',msg:'VRF-1047: SSQ API <em>503</em> — retry 1/3 (back-off 4s)'},
+  {ts:'15:44:05',l:'i',msg:'Patching Dentrix record <em>OKW-19283</em>'},
+  {ts:'15:44:05',l:'s',msg:'CRM sync OK · no manual re-entry needed'},
+];
+const lb = document.getElementById('logBox');
+let li=0;
+function appendLog(){
+  if(li>=logLines.length){li=0;lb.innerHTML='';}
+  const l=logLines[li++];
+  const d=document.createElement('div'); d.className='log-row';
+  d.innerHTML=`<span class="log-ts">${l.ts}</span><span class="log-lvl ${l.l}">${{i:'INFO',s:'OK  ',w:'WARN'}[l.l]}</span><span class="log-txt">${l.msg}</span>`;
+  lb.appendChild(d); lb.scrollTop=lb.scrollHeight;
+  setTimeout(appendLog, 850);
+}
+appendLog();
+
+// ── Coverage panel ────────────────────────────────────────────
+const covServices=[
+  {name:'Preventive',pct:100,limit:'100% — no deductible',w:100},
+  {name:'Basic / Restorative',pct:80,limit:'80% after $50 deductible',w:80},
+  {name:'Major Restorative',pct:50,limit:'50% after deductible',w:50},
+  {name:'Orthodontics',pct:50,limit:'50% · lifetime max $3,000',w:50},
+];
+const cg=document.getElementById('coverageGrid');
+covServices.forEach(c=>{
+  cg.innerHTML+=`<div class="cov-tile">
+    <div class="cov-service">${c.name}</div>
+    <div class="cov-pct">${c.pct}%</div>
+    <div class="cov-limit">${c.limit}</div>
+    <div class="cov-bar-bg"><div class="cov-bar" style="width:${c.w}%"></div></div>
+  </div>`;
+});
+
+const eligData=[
+  {label:'Eligibility Status', value:'Active', chip:'chip-green'},
+  {label:'Plan Type', value:'Group — Employer Sponsored', chip:''},
+  {label:'Effective Date', value:'2021-03-01', chip:''},
+  {label:'Waiting Period', value:'None (satisfied)', chip:'chip-green'},
+  {label:'Deductible (Annual)', value:'$50 individual / $100 family', chip:''},
+  {label:'Coordination of Benefits', value:'Yes — primary plan', chip:'chip-blue'},
+];
+const ed=document.getElementById('eligDetails');
+eligData.forEach(e=>{
+  ed.innerHTML+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)">
+    <span style="font-size:12px;color:var(--text2);font-weight:500">${e.label}</span>
+    ${e.chip?`<span class="chip ${e.chip}">${e.value}</span>`:`<span style="font-size:12px;font-weight:600">${e.value}</span>`}
+  </div>`;
+});
+
+const covLogs=[
+  {ts:'15:42:11',l:'i',msg:'VRF-1042: <em>Sarah Mitchell</em> — Sun Life'},
+  {ts:'15:42:11',l:'i',msg:'REST call → sunlife-api.ca/v2/eligibility'},
+  {ts:'15:42:12',l:'s',msg:'Response <em>200 OK</em> in <em>1.3s</em>'},
+  {ts:'15:42:12',l:'s',msg:'Parsed: 4 coverage tiers + annual max'},
+  {ts:'15:42:13',l:'s',msg:'Guardrail pass · accuracy <em>0.98</em>'},
+  {ts:'15:42:13',l:'s',msg:'Synced to Dentrix · record <em>MTL-83721</em>'},
+];
+const cl=document.getElementById('coverageLog');
+covLogs.forEach(l=>{
+  const d=document.createElement('div'); d.className='log-row';
+  d.innerHTML=`<span class="log-ts">${l.ts}</span><span class="log-lvl ${l.l}">${{i:'INFO',s:'OK  ',w:'WARN'}[l.l]}</span><span class="log-txt">${l.msg}</span>`;
+  cl.appendChild(d);
+});
+
+// ── Integrations ──────────────────────────────────────────────
+const ints=[
+  {icon:'🦷',name:'Dentrix',detail:'PMS sync — patches patient records after each verification. No manual re-entry.',status:'Connected',cls:'chip-green',lat:'44ms avg'},
+  {icon:'🏥',name:'Eaglesoft',detail:'Two-way patient schedule sync. Pulls upcoming appointments for auto-queue.',status:'Connected',cls:'chip-green',lat:'61ms avg'},
+  {icon:'☀️',name:'Sun Life API',detail:'Direct REST API integration. OAuth2 token refresh, coverage fields parsed.',status:'Connected',cls:'chip-green',lat:'1.3s avg'},
+  {icon:'🌐',name:'Manulife Portal',detail:'Headless browser automation. Portal scrape with retry + back-off on 5xx.',status:'Connected',cls:'chip-green',lat:'3.1s avg'},
+  {icon:'🤖',name:'Anthropic (Claude)',detail:'LLM backbone for parsing irregular insurer response formats + guardrails.',status:'Connected',cls:'chip-green',lat:'218ms p95'},
+  {icon:'📊',name:'DataDog',detail:'Agent telemetry, latency tracking, error rate alerts. SLA monitoring.',status:'Connected',cls:'chip-green',lat:'<5ms'},
+];
+const ig=document.getElementById('intGrid');
+ints.forEach(i=>{
+  ig.innerHTML+=`<div class="int-card">
+    <div class="int-icon">${i.icon}</div>
+    <div class="int-name">${i.name}</div>
+    <div class="int-detail">${i.detail}</div>
+    <div class="int-meta">
+      <span class="chip ${i.cls}"><span class="dot"></span>${i.status}</span>
+      <span class="int-latency">${i.lat}</span>
+    </div>
+  </div>`;
+});
+
+const wlogs=[
+  {ts:'15:44:05',l:'s',msg:'POST /dentrix/patients/MTL-83721 → <em>200 OK</em> (44ms)'},
+  {ts:'15:44:05',l:'s',msg:'POST /datadog/metrics → <em>200 OK</em> (3ms)'},
+  {ts:'15:43:58',l:'w',msg:'POST /ssq/coverage → <em>503</em> · retry 1/3 (back-off 4s)'},
+  {ts:'15:43:52',l:'s',msg:'POST /eaglesoft/schedule → <em>200 OK</em> (61ms)'},
+  {ts:'15:43:41',l:'s',msg:'POST /dentrix/patients/OKW-19283 → <em>200 OK</em> (38ms)'},
+  {ts:'15:43:30',l:'s',msg:'POST /sunlife/eligibility → <em>200 OK</em> (1.3s)'},
+];
+const wl=document.getElementById('webhookLog');
+wlogs.forEach(l=>{
+  const d=document.createElement('div'); d.className='log-row';
+  d.innerHTML=`<span class="log-ts">${l.ts}</span><span class="log-lvl ${l.l}">${{i:'INFO',s:'OK  ',w:'WARN'}[l.l]}</span><span class="log-txt">${l.msg}</span>`;
+  wl.appendChild(d);
+});
+
+// ── Code snippets ─────────────────────────────────────────────
+const codes=[
+`<span class="cm">// agent/VerificationAgent.ts — Cleer Platform</span>
+<span class="cm">// Orchestrates insurer contact → parse → PMS sync with guardrails</span>
+
+<span class="kw">import</span> <span class="var">Anthropic</span> <span class="kw">from</span> <span class="str">'@anthropic-ai/sdk'</span><span class="op">;</span>
+<span class="kw">import</span> { <span class="var">InsurerClient</span> } <span class="kw">from</span> <span class="str">'./insurer-client'</span><span class="op">;</span>
+<span class="kw">import</span> { <span class="var">patchPMSRecord</span> } <span class="kw">from</span> <span class="str">'./pms-sync'</span><span class="op">;</span>
+
+<span class="kw">const</span> <span class="var">llm</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Anthropic</span>()<span class="op">;</span>
+
+<span class="kw">export async function</span> <span class="fn">runVerification</span>(<span class="var">job</span><span class="op">:</span> <span class="ty">VerificationJob</span>)<span class="op">:</span> <span class="ty">Promise</span><span class="op">&lt;</span><span class="ty">CoverageBreakdown</span><span class="op">&gt;</span> {
+  <span class="kw">const</span> <span class="var">raw</span> <span class="op">=</span> <span class="kw">await</span> <span class="kw">new</span> <span class="fn">InsurerClient</span>(<span class="var">job</span><span class="op">.</span><span class="var">insurer</span>)<span class="op">.</span><span class="fn">fetchCoverage</span>({
+    policyNumber<span class="op">:</span> <span class="var">job</span><span class="op">.</span><span class="var">policyNumber</span>,
+    dob<span class="op">:</span>          <span class="var">job</span><span class="op">.</span><span class="var">patientDob</span>,
+  })<span class="op">;</span>
+
+  <span class="cm">// LLM normalizes irregular insurer response formats</span>
+  <span class="kw">const</span> <span class="var">msg</span> <span class="op">=</span> <span class="kw">await</span> <span class="var">llm</span><span class="op">.</span><span class="var">messages</span><span class="op">.</span><span class="fn">create</span>({
+    model<span class="op">:</span>      <span class="str">'claude-sonnet-5-5'</span><span class="op">,</span>
+    max_tokens<span class="op">:</span> <span class="num">512</span><span class="op">,</span>
+    system<span class="op">:</span>     <span class="str">'Parse this insurer response. Return JSON: {preventive, basic, major, ortho, annualMax, deductible, eligibilityStatus}'</span><span class="op">,</span>
+    messages<span class="op">:</span>   [{ role<span class="op">:</span> <span class="str">'user'</span><span class="op">,</span> content<span class="op">:</span> <span class="var">raw</span> }]<span class="op">,</span>
+  })<span class="op">;</span>
+
+  <span class="kw">const</span> <span class="var">coverage</span> <span class="op">=</span> <span class="fn">validateCoverage</span>(<span class="fn">JSON</span><span class="op">.</span><span class="fn">parse</span>(<span class="var">msg</span><span class="op">.</span><span class="var">content</span>[<span class="num">0</span>]<span class="op">.</span><span class="var">text</span>))<span class="op">;</span>
+  <span class="kw">if</span> (<span class="op">!</span><span class="var">coverage</span><span class="op">.</span><span class="var">valid</span>) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">'Guardrail: coverage parse failed'</span>)<span class="op">;</span>
+
+  <span class="cm">// Sync to PMS — no manual re-entry</span>
+  <span class="kw">await</span> <span class="fn">patchPMSRecord</span>(<span class="var">job</span><span class="op">.</span><span class="var">patientId</span><span class="op">,</span> <span class="var">coverage</span><span class="op">.</span><span class="var">data</span>)<span class="op">;</span>
+  <span class="kw">return</span> <span class="var">coverage</span><span class="op">.</span><span class="var">data</span><span class="op">;</span>
+}`,
+
+`<span class="cm"># insurer/client.py — Cleer Platform</span>
+<span class="cm"># Fetches coverage via REST or headless scrape; exponential back-off on 5xx</span>
+
+<span class="kw">import</span> <span class="var">time</span>, <span class="var">logging</span>
+<span class="kw">from</span> <span class="var">playwright.async_api</span> <span class="kw">import</span> <span class="var">async_playwright</span>
+
+<span class="var">logger</span> <span class="op">=</span> <span class="fn">logging</span><span class="op">.</span><span class="fn">getLogger</span>(<span class="str">__name__</span>)
+
+<span class="kw">class</span> <span class="fn">InsurerClient</span>:
+    <span class="var">MAX_RETRIES</span> <span class="op">=</span> <span class="num">3</span>
+    <span class="var">BACKOFF_BASE</span> <span class="op">=</span> <span class="num">2</span>  <span class="cm"># seconds: 2, 4, 8</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">insurer</span><span class="op">:</span> <span class="ty">str</span>):
+        <span class="var">self</span><span class="op">.</span><span class="var">insurer</span> <span class="op">=</span> <span class="var">insurer</span>
+        <span class="var">self</span><span class="op">.</span><span class="var">strategy</span> <span class="op">=</span> <span class="var">self</span><span class="op">.</span><span class="fn">_pick_strategy</span>()
+
+    <span class="kw">async def</span> <span class="fn">fetch_coverage</span>(<span class="var">self</span>, <span class="op">**</span><span class="var">params</span>)<span class="op">:</span>
+        <span class="kw">for</span> <span class="var">attempt</span> <span class="kw">in</span> <span class="fn">range</span>(<span class="var">self</span><span class="op">.</span><span class="var">MAX_RETRIES</span>):
+            <span class="kw">try</span>:
+                <span class="var">raw</span> <span class="op">=</span> <span class="kw">await</span> <span class="var">self</span><span class="op">.</span><span class="var">strategy</span><span class="op">.</span><span class="fn">get</span>(<span class="op">**</span><span class="var">params</span>)
+                <span class="var">logger</span><span class="op">.</span><span class="fn">info</span>(<span class="str">f"{self.insurer}: coverage fetched OK (attempt {attempt+1})"</span>)
+                <span class="kw">return</span> <span class="var">raw</span>
+            <span class="kw">except</span> <span class="fn">ServerError</span> <span class="kw">as</span> <span class="var">e</span>:
+                <span class="kw">if</span> <span class="var">attempt</span> <span class="op">==</span> <span class="var">self</span><span class="op">.</span><span class="var">MAX_RETRIES</span> <span class="op">-</span> <span class="num">1</span>: <span class="kw">raise</span>
+                <span class="var">delay</span> <span class="op">=</span> <span class="var">self</span><span class="op">.</span><span class="var">BACKOFF_BASE</span> <span class="op">**</span> (<span class="var">attempt</span> <span class="op">+</span> <span class="num">1</span>)
+                <span class="var">logger</span><span class="op">.</span><span class="fn">warning</span>(<span class="str">f"{self.insurer}: {e} — retry {attempt+1} in {delay}s"</span>)
+                <span class="var">time</span><span class="op">.</span><span class="fn">sleep</span>(<span class="var">delay</span>)
+
+    <span class="kw">def</span> <span class="fn">_pick_strategy</span>(<span class="var">self</span>):
+        <span class="cm"># REST API where available; headless scrape as fallback</span>
+        <span class="var">REST_INSURERS</span> <span class="op">=</span> {<span class="str">'Sun Life'</span>, <span class="str">'Canada Life'</span>, <span class="str">'Desjardins'</span>}
+        <span class="kw">return</span> <span class="fn">RESTStrategy</span>(<span class="var">self</span><span class="op">.</span><span class="var">insurer</span>) <span class="kw">if</span> <span class="var">self</span><span class="op">.</span><span class="var">insurer</span> <span class="kw">in</span> <span class="var">REST_INSURERS</span> <span class="kw">else</span> <span class="fn">ScrapeStrategy</span>(<span class="var">self</span><span class="op">.</span><span class="var">insurer</span>)`,
+
+`<span class="cm">// webhooks/pms-sync.ts — Cleer → Dentrix / Eaglesoft</span>
+<span class="cm">// Patches verified coverage back to PMS. Retry on 5xx. No re-entry needed.</span>
+
+<span class="kw">interface</span> <span class="ty">CoveragePayload</span> {
+  patientId<span class="op">:</span>  <span class="ty">string</span><span class="op">;</span>
+  preventive<span class="op">:</span> <span class="ty">number</span><span class="op">;</span>  <span class="cm">// e.g. 100</span>
+  basic<span class="op">:</span>      <span class="ty">number</span><span class="op">;</span>  <span class="cm">// e.g. 80</span>
+  major<span class="op">:</span>      <span class="ty">number</span><span class="op">;</span>
+  annualMax<span class="op">:</span>  <span class="ty">number</span><span class="op">;</span>  <span class="cm">// in CAD</span>
+  verifiedAt<span class="op">:</span> <span class="ty">string</span><span class="op">;</span>  <span class="cm">// ISO 8601</span>
+}
+
+<span class="kw">export async function</span> <span class="fn">patchPMSRecord</span>(
+  <span class="var">patientId</span><span class="op">:</span> <span class="ty">string</span>,
+  <span class="var">coverage</span><span class="op">:</span>  <span class="ty">CoveragePayload</span>,
+  <span class="var">maxRetries</span> <span class="op">=</span> <span class="num">3</span>
+)<span class="op">:</span> <span class="ty">Promise</span><span class="op">&lt;</span><span class="ty">void</span><span class="op">&gt;</span> {
+
+  <span class="kw">const</span> <span class="var">url</span> <span class="op">=</span> <span class="str">\`\${process.env.PMS_WEBHOOK_URL}/patients/\${patientId}\`</span><span class="op">;</span>
+
+  <span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span><span class="op">;</span> <span class="var">i</span> <span class="op">&lt;</span> <span class="var">maxRetries</span><span class="op">;</span> <span class="var">i</span><span class="op">++</span>) {
+    <span class="kw">const</span> <span class="var">res</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">fetch</span>(<span class="var">url</span>, {
+      method<span class="op">:</span>  <span class="str">'PATCH'</span>,
+      headers<span class="op">:</span> { <span class="str">'Content-Type'</span><span class="op">:</span> <span class="str">'application/json'</span>,
+                  <span class="str">'Authorization'</span><span class="op">:</span> <span class="str">\`Bearer \${process.env.PMS_API_KEY}\`</span> },
+      body<span class="op">:</span>    <span class="fn">JSON</span><span class="op">.</span><span class="fn">stringify</span>({ ...coverage, verifiedAt<span class="op">:</span> <span class="kw">new</span> <span class="fn">Date</span>()<span class="op">.</span><span class="fn">toISOString</span>() }),
+    })<span class="op">;</span>
+
+    <span class="kw">if</span> (<span class="var">res</span><span class="op">.</span><span class="var">ok</span>) { <span class="var">logger</span><span class="op">.</span><span class="fn">info</span>(<span class="str">\`PMS sync OK — \${patientId}\`</span>)<span class="op">;</span> <span class="kw">return</span><span class="op">;</span> }
+    <span class="kw">if</span> (<span class="var">res</span><span class="op">.</span><span class="var">status</span> <span class="op">&lt;</span> <span class="num">500</span>) <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">\`PMS 4xx: \${res.status}\`</span>)<span class="op">;</span>
+
+    <span class="kw">const</span> <span class="var">delay</span> <span class="op">=</span> <span class="num">1000</span> <span class="op">*</span> <span class="num">2</span> <span class="op">**</span> <span class="var">i</span><span class="op">;</span>  <span class="cm">// 1s, 2s, 4s</span>
+    <span class="var">logger</span><span class="op">.</span><span class="fn">warn</span>(<span class="str">\`PMS \${res.status} — retry \${i+1}/\${maxRetries} in \${delay}ms\`</span>)<span class="op">;</span>
+    <span class="kw">await</span> <span class="kw">new</span> <span class="fn">Promise</span>(<span class="var">r</span> <span class="op">=&gt;</span> <span class="fn">setTimeout</span>(<span class="var">r</span>, <span class="var">delay</span>))<span class="op">;</span>
+  }
+  <span class="kw">throw new</span> <span class="fn">Error</span>(<span class="str">'PMS sync: max retries exceeded'</span>)<span class="op">;</span>
+}`
+];
+
+document.getElementById('codeArea').innerHTML = codes[0];
+function switchCodeTab(idx,el){
+  document.querySelectorAll('#codeTabs .code-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('codeArea').innerHTML = codes[idx];
+}
+</script>
